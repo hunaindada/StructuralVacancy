@@ -178,6 +178,19 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offse
 .heat{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:6px}
 .heat i{display:block;height:26px;border:1px solid var(--rule);background:color-mix(in srgb,var(--accent) calc(var(--o)*100%),var(--panel))}
 .heat i.ans{border:2px solid var(--ink)}
+.jump{margin:0;font-family:var(--mono);font-size:12.5px;color:var(--muted)}
+.jump a{color:var(--ink)}
+.picker{display:flex;flex-direction:column;gap:14px;border-top:2px solid var(--ink);padding-top:22px;scroll-margin-top:16px}
+.picker h2{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(26px,6vw,34px);line-height:1.08}
+.picker p{margin:0;color:var(--muted);font-size:14px;max-width:56ch}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.pk{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:9px;row-gap:1px;align-items:center;text-align:left;background:var(--panel);border:1px solid var(--rule);padding:10px 11px;min-height:58px;color:var(--ink);font-family:var(--sans);font-size:14px;letter-spacing:0;text-transform:none}
+.pk:hover{border-color:var(--ink)}
+.pk i{width:12px;height:12px;border:1px solid var(--ink);background:hsl(var(--ph) var(--ps) var(--acc-l))}
+.pk b{font-weight:500;overflow-wrap:anywhere}
+.pk small{grid-column:2;font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.pk.cur{border:2px solid var(--ink);padding:9px 10px}
+.pk.done b::after{content:" \2713";color:var(--win)}
 .gate{background:var(--panel);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:12px}
 .gate h2{margin:0;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1}
 .gate p{margin:0;max-width:56ch}
@@ -207,6 +220,7 @@ footer p{margin:0}
     <p class="label num" id="eyebrow" style="margin:0"></p>
     <h1 id="head"></h1>
     <p class="deck">What does it trade for, per square foot?</p>
+    <p class="jump" id="jump"></p>
   </section>
 
   <figure class="plate">
@@ -260,16 +274,23 @@ footer p{margin:0}
     <div class="actions">
       <button class="primary" id="copy" type="button" style="min-height:44px">Copy result</button>
       <button class="ghost" id="challenge" type="button">Challenge a friend</button>
-      <button class="ghost" id="practice" type="button">Practice deal</button>
+      <button class="ghost" id="practice" type="button">Play another market</button>
       <button class="ghost" id="today" type="button" hidden>Back to today</button>
       <span class="note" id="note" aria-live="polite"></span>
     </div>
   </section>
 
+  <section class="picker" id="deals">
+    <p class="label" style="margin:0">More deals</p>
+    <h2 id="pickHead"></h2>
+    <p>Today's deal is the one on the bid sheet. Every other market is open to play any time.</p>
+    <div class="pgrid" id="pgrid"></div>
+  </section>
+
   <section class="gate" id="gate" hidden>
     <p class="label" style="margin:0">Keep playing</p>
     <h2>You have priced three deals.</h2>
-    <p>Add your email to unlock unlimited practice deals and hear about new deals from Structural Vacancy. The daily deal stays free either way.</p>
+    <p>Add your email to unlock every market and hear about new deals from Structural Vacancy. The daily deal stays free either way.</p>
     <form id="gateForm" novalidate>
       <input id="gateEmail" name="email" type="email" autocomplete="email" placeholder="you@firm.com" aria-label="Email address" required>
       <button class="primary" type="submit" style="min-height:48px">Unlock</button>
@@ -454,6 +475,19 @@ function crowd(){
     $("heatWrap").hidden=false;
   }).catch(function(){});
 }
+var SHORT={"Multi-tenant small bay":"Small bay","Shallow bay":"Shallow bay","Office-flex":"Office-flex","Bulk distribution":"Bulk","Single-tenant warehouse":"Single-tenant","Infill warehouse":"Infill","Multi-tenant industrial":"Multi-tenant","Flex / small bay":"Flex","Mid-bay":"Mid-bay","Crane-served manufacturing":"Crane-served","Multi-tenant warehouse":"Multi-tenant"};
+var pending=null;
+function todayDi(){return ORDER[S.day%DEALS.length]}
+function picker(){
+  var pl=meta().played,t=todayDi(),mk={};
+  DEALS.forEach(function(d){mk[d.mkt_name]=1});
+  var nm=Object.keys(mk).length;
+  $("pickHead").textContent=DEALS.length+" deals across "+nm+" markets.";
+  $("jump").innerHTML=S.mode==="daily"?'Or <a href="#deals">pick from '+DEALS.length+' deals in '+nm+' markets</a>.':'<a href="#deals">Pick another market</a>.';
+  var idx=[t].concat(ORDER.filter(function(i){return i!==t}));
+  $("pgrid").innerHTML=idx.map(function(i){var d=DEALS[i],rg=REG[d.mkt_name]||[14,"52%"];
+    return '<button type="button" class="pk'+(i===S.di?" cur":"")+(pl.indexOf(i)>-1?" done":"")+'" data-di="'+i+'" style="--ph:'+rg[0]+";--ps:"+rg[1]+'"><i></i><b>'+d.mkt_name.replace(/, [A-Z]{2}$/,"")+'</b><small>'+(i===t?"Today · ":"")+SHORT[d.type]+" · "+Math.round(d.sf/1e3)+'k SF</small></button>'}).join("");
+}
 function copyText(t,note,ok){
   function fallback(){try{$("share").hidden=false;$("share").textContent=t;var r=document.createRange();r.selectNodeContents($("share"));var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}note.textContent="Selected. Copy it from here."}
   try{navigator.clipboard.writeText(t).then(function(){note.textContent=ok},fallback)}catch(e){fallback()}
@@ -550,8 +584,9 @@ function startDaily(){
   if(st.day===day&&Array.isArray(st.bids)){S.bids=st.bids.slice(0,MAX);S.done=!!st.done;S.won=!!st.won}
   else if(st.lastWin!==day-1&&st.lastWin!==day){S.streak=0}
 }
-function startPractice(){
-  var di,pl=meta().played,t=0;do{di=Math.floor(Math.random()*DEALS.length);t++}while(di===S.di||(t<60&&pl.indexOf(di)>-1));
+function startPractice(pick){
+  var di=pick,pl=meta().played,t=0;
+  if(di==null)do{di=Math.floor(Math.random()*DEALS.length);t++}while(di===S.di||(t<60&&pl.indexOf(di)>-1));
   S={mode:"practice",day:S.day,di:di,bids:[],done:false,won:false,streak:S.streak,lastWin:S.lastWin};
 }
 function persist(){if(S.mode==="daily")save({day:S.day,bids:S.bids,done:S.done,won:S.won,streak:S.streak,lastWin:S.lastWin})}
@@ -566,11 +601,11 @@ function render(fresh){
   var date=new Date(LAUNCH.getFullYear(),LAUNCH.getMonth(),LAUNCH.getDate()+S.day);
   $("eyebrow").textContent=S.mode==="daily"
     ?"Price the Deal · No. "+pad(S.day+1)+" · "+date.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})
-    :"Price the Deal · Practice";
+    :"Price the Deal · Open deal";
   $("head").textContent=d.head;
   if(drawn!==S.di){drawn=S.di;sketch(d);var rg=REG[d.mkt_name]||[14,"52%"];
     document.documentElement.style.setProperty("--h",rg[0]);document.documentElement.style.setProperty("--s",rg[1])}
-  ruler(d);
+  ruler(d);picker();
   $("stamp").hidden=!S.done;
   if(S.done)$("stamp").innerHTML=(S.won?"Awarded":"Outbid")+"<small>$"+a+" / SF</small>";
   var rows=[["Market",d.mkt_name],["Submarket",d.sub],["Product",d.type],["Size",d.sf.toLocaleString("en-US")+" SF"],
@@ -603,7 +638,7 @@ function render(fresh){
     var daily=S.mode==="daily";
     $("share").hidden=!daily; $("copy").hidden=!daily; $("challenge").hidden=!daily;
     if(daily)$("share").textContent=shareText(d);
-    $("practice").textContent=daily?"Practice deal":"Another practice deal";
+    $("practice").textContent=daily?"Play another market":"Next deal";
     $("today").hidden=daily;
     $("note").textContent="";
   }else{
@@ -648,10 +683,19 @@ $("challenge").addEventListener("click",function(){
   copyText(t,$("note"),"Challenge copied. Send it to a friend.");
 });
 function gateOn(){var m=meta();return API&&!m.unlocked&&(m.n||0)>=FREE_DEALS}
-function goPractice(){$("gate").hidden=true;startPractice();track("practice_start",{deal:S.di});render();scrollTo(0,0)}
+function goPractice(pick){$("gate").hidden=true;if(pick==null)pick=pending;pending=null;startPractice(pick);track("practice_start",{deal:S.di});render();scrollTo(0,0)}
+function openGate(){$("gate").hidden=false;track("gate_shown",{});$("gate").scrollIntoView({block:"nearest"});$("gateEmail").focus()}
+$("pgrid").addEventListener("click",function(e){
+  var b=e.target.closest?e.target.closest(".pk"):null;if(!b)return;
+  var di=+b.getAttribute("data-di");
+  if(di===todayDi()){$("gate").hidden=true;startDaily();render();scrollTo(0,0);return}
+  if(di===S.di&&S.mode==="practice"&&!S.done){scrollTo(0,0);return}
+  if(gateOn()){pending=di;openGate();return}
+  goPractice(di);
+});
 $("practice").addEventListener("click",function(){
-  if(gateOn()){$("gate").hidden=false;track("gate_shown",{});$("gate").scrollIntoView({block:"nearest"});$("gateEmail").focus();return}
-  goPractice();
+  if(gateOn()){pending=null;openGate();return}
+  goPractice(null);
 });
 $("gateForm").addEventListener("submit",function(e){
   e.preventDefault();
@@ -659,7 +703,7 @@ $("gateForm").addEventListener("submit",function(e){
   if(!em.value||!em.checkValidity()){note.textContent="Enter a valid email address.";em.focus();return}
   note.textContent="Saving...";
   fetch("/api/e",{method:"POST",body:JSON.stringify({t:"email",email:em.value,vid:VID})}).then(function(r){return r.json()}).then(function(j){
-    if(!j.ok)throw 0;var m=meta();m.unlocked=true;saveMeta(m);note.textContent="";goPractice();
+    if(!j.ok)throw 0;var m=meta();m.unlocked=true;saveMeta(m);note.textContent="";goPractice(pending);
   }).catch(function(){note.textContent="That did not save. Check the address and try again."});
 });
 $("gateBack").addEventListener("click",function(){$("gate").hidden=true});
