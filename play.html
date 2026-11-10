@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Price the Deal — Structural Vacancy</title>
-<meta name="description" content="One composite industrial deal a day. Read the site sketch and tear sheet, then land the price per square foot in five bids.">
+<meta name="description" content="One composite industrial deal a day. Read the site sketch and tear sheet, land the price per square foot in five bids, then see real trades from that market.">
 <link rel="canonical" href="https://www.structuralvacancy.com/play">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <meta name="theme-color" content="#e8e2d4">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Structural Vacancy">
 <meta property="og:title" content="Price the Deal — Structural Vacancy">
-<meta property="og:description" content="One composite industrial deal a day. Read the site sketch and tear sheet, then land the price per square foot in five bids.">
+<meta property="og:description" content="One composite industrial deal a day. Read the site sketch and tear sheet, land the price per square foot in five bids, then see real trades from that market.">
 <meta property="og:image" content="https://www.structuralvacancy.com/og.jpg">
 <meta property="og:url" content="https://www.structuralvacancy.com/play">
 <meta name="twitter:card" content="summary_large_image">
@@ -28,6 +28,7 @@ img{max-width:100%}
   --paper:#e8e2d4; --ink:#1a1714; --rule:#cfc6b6; --soft:#3b352d; --muted:#5c564c; --faint:#8a8378;
   --panel:#f1ecdf; --rust:#c45c3a; --on-rust:#fff8f0;
   --cold:#4e5c62; --warm:#a87a1f; --hot:#c45c3a; --win:#3f7048;
+  --acc-l:40%; --h:14; --s:52%; --accent:hsl(var(--h) var(--s) var(--acc-l));
   --roof:#f6f1e6; --face1:#d6cdbb; --face2:#bdb29d; --pad:#ded7c7;
   --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
   --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
@@ -37,11 +38,13 @@ img{max-width:100%}
   --paper:#1a1714; --ink:#e8e2d4; --rule:#3a342c; --soft:#d3ccbd; --muted:#a39b8d; --faint:#7d766a;
   --panel:#231f1a; --rust:#d9714e; --on-rust:#1a1714;
   --cold:#8296a0; --warm:#d2a445; --hot:#e07c58; --win:#7fb287;
+  --acc-l:64%;
   --roof:#4a4338; --face1:#2f2a24; --face2:#24201b; --pad:#201c18; color-scheme:dark } }
 :root[data-theme="dark"]{
   --paper:#1a1714; --ink:#e8e2d4; --rule:#3a342c; --soft:#d3ccbd; --muted:#a39b8d; --faint:#7d766a;
   --panel:#231f1a; --rust:#d9714e; --on-rust:#1a1714;
   --cold:#8296a0; --warm:#d2a445; --hot:#e07c58; --win:#7fb287;
+  --acc-l:64%;
   --roof:#4a4338; --face1:#2f2a24; --face2:#24201b; --pad:#201c18; color-scheme:dark }
 
 *{box-sizing:border-box}
@@ -118,10 +121,10 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offse
 .plate figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
 .key{display:inline-flex;align-items:center;gap:6px;margin-left:12px}
 .key:first-child{margin-left:0}
-.key i{width:12px;height:12px;border:1px solid var(--ink);background:var(--roof);display:inline-block}
+.key i{width:12px;height:12px;border:1px solid var(--ink);background:color-mix(in srgb,var(--accent) 36%,var(--roof));display:inline-block}
 .key i.v{background:repeating-linear-gradient(45deg,var(--rust) 0 2px,var(--roof) 2px 5px)}
 .sk-pad{fill:var(--pad);stroke:var(--faint);stroke-dasharray:5 4}
-.sk-roof{fill:var(--roof);stroke:var(--ink)}
+.sk-roof{fill:color-mix(in srgb,var(--accent) 36%,var(--roof));stroke:var(--ink)}
 .sk-vac{fill:url(#vh);stroke:var(--ink)}
 .sk-f1{fill:var(--face1);stroke:var(--ink)}
 .sk-f2{fill:var(--face2);stroke:var(--ink)}
@@ -135,7 +138,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offse
 .sk-tr{fill:var(--roof);stroke:var(--ink)}
 .sk-tr2{fill:var(--face1);stroke:var(--ink)}
 .plate svg *{vector-effect:non-scaling-stroke;stroke-width:1;stroke-linejoin:round}
-.stamp{position:absolute;right:14px;top:14px;transform:rotate(-5deg);border:3px solid var(--rust);color:var(--rust);background:color-mix(in srgb,var(--panel) 82%,transparent);font-family:var(--mono);font-weight:500;font-size:clamp(15px,4.2vw,24px);letter-spacing:.2em;text-transform:uppercase;padding:6px 12px 6px 16px;white-space:nowrap}
+.stamp{position:absolute;right:14px;top:14px;transform:rotate(-5deg);border:3px solid var(--accent);color:var(--accent);background:color-mix(in srgb,var(--panel) 82%,transparent);font-family:var(--mono);font-weight:500;font-size:clamp(15px,4.2vw,24px);letter-spacing:.2em;text-transform:uppercase;padding:6px 12px 6px 16px;white-space:nowrap}
 .stamp small{display:block;font-size:.42em;letter-spacing:.16em;text-align:center;margin-top:2px}
 
 .ruler{display:flex;flex-direction:column;gap:8px}
@@ -144,7 +147,7 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offse
 .track .axis{position:absolute;left:0;right:0;top:21px;border-top:1.25px solid var(--ink)}
 .track .tick{position:absolute;top:15px;height:13px;border-left:1px solid var(--ink)}
 .track .tick.minor{top:18px;height:7px;border-color:var(--faint)}
-.track .play{position:absolute;top:8px;height:27px;background:color-mix(in srgb,var(--rust) 20%,transparent);border-left:1.5px solid var(--rust);border-right:1.5px solid var(--rust);transition:left .35s,width .35s}
+.track .play{position:absolute;top:8px;height:27px;background:color-mix(in srgb,var(--accent) 26%,transparent);border-left:1.5px solid var(--accent);border-right:1.5px solid var(--accent);transition:left .35s,width .35s}
 .track .mk{position:absolute;top:13px;width:16px;height:16px;margin-left:-8px;border:1.25px solid var(--paper)}
 .track .mk.cold{background:var(--cold)}.track .mk.warm{background:var(--warm)}.track .mk.hot{background:var(--hot)}.track .mk.win{background:var(--win)}
 .track .flag{position:absolute;top:0;height:44px;border-left:2px solid var(--win)}
@@ -156,6 +159,31 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offse
 }
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 @keyframes stamp{from{opacity:0;transform:rotate(-5deg) scale(1.7)}to{opacity:1;transform:rotate(-5deg) scale(1)}}
+
+.banner{margin:0;padding:11px 14px;border:1.5px solid var(--accent);background:var(--panel);font-size:15px}
+.comps{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.comps ul{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--rule)}
+.comps li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 16px;padding:12px 0;border-top:1px solid var(--rule)}
+.c-name{font-weight:500}
+.c-price{text-align:right;font-weight:500;font-variant-numeric:tabular-nums;white-space:nowrap}
+.c-det{font-size:13.5px;color:var(--muted)}
+.c-det a{color:var(--muted)}
+.c-psf{font-family:var(--mono);font-size:12px;color:var(--muted);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.fine{font-size:13px;color:var(--muted)}
+.crowd{display:flex;flex-direction:column;gap:10px;margin-top:6px}
+.cb{display:grid;grid-template-columns:64px minmax(0,1fr) 34px;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;color:var(--muted);padding:3px 0}
+.cb i{display:block;height:16px;min-width:2px;background:var(--faint)}
+.cb b{font-weight:400;text-align:right;font-variant-numeric:tabular-nums}
+.cb.me{color:var(--ink)}.cb.me i{background:var(--accent)}
+.heat{display:grid;grid-template-columns:repeat(20,1fr);gap:2px;margin-top:6px}
+.heat i{display:block;height:26px;border:1px solid var(--rule);background:color-mix(in srgb,var(--accent) calc(var(--o)*100%),var(--panel))}
+.heat i.ans{border:2px solid var(--ink)}
+.gate{background:var(--panel);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:12px}
+.gate h2{margin:0;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1}
+.gate p{margin:0;max-width:56ch}
+.gate form{display:flex;gap:10px;flex-wrap:wrap}
+.gate input{flex:1 1 200px;min-width:0;min-height:48px;padding:0 12px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);font:inherit;border-radius:0}
+.gate input:focus{outline:2px solid var(--rust);outline-offset:2px}
 
 footer .wrap{border-top:1px solid var(--rule);padding-block:20px 32px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
 footer p{margin:0}
@@ -175,6 +203,7 @@ footer p{margin:0}
 
 <main><div class="wrap">
   <section class="intro">
+    <p class="banner" id="banner" hidden></p>
     <p class="label num" id="eyebrow" style="margin:0"></p>
     <h1 id="head"></h1>
     <p class="deck">What does it trade for, per square foot?</p>
@@ -213,18 +242,44 @@ footer p{margin:0}
     <h2 id="resHead"></h2>
     <p class="num" id="resMath"></p>
     <p class="why" id="resWhy"></p>
+    <div class="comps" id="comps" hidden>
+      <p class="label" style="margin:0">Real trades in this market</p>
+      <ul id="compList"></ul>
+      <p class="fine" id="compNote"></p>
+    </div>
+    <div class="crowd" id="crowd" hidden>
+      <p class="label" style="margin:0">The bid sheet</p>
+      <p id="crowdLine"></p>
+      <div id="crowdBars"></div>
+      <div id="heatWrap" hidden>
+        <div class="heat" id="heat"></div>
+        <p class="fine">Where first bids landed, $0 to $400 per SF. The outlined cell holds the price.</p>
+      </div>
+    </div>
     <pre class="share" id="share" hidden></pre>
     <div class="actions">
       <button class="primary" id="copy" type="button" style="min-height:44px">Copy result</button>
+      <button class="ghost" id="challenge" type="button">Challenge a friend</button>
       <button class="ghost" id="practice" type="button">Practice deal</button>
       <button class="ghost" id="today" type="button" hidden>Back to today</button>
       <span class="note" id="note" aria-live="polite"></span>
     </div>
   </section>
+
+  <section class="gate" id="gate" hidden>
+    <p class="label" style="margin:0">Keep playing</p>
+    <h2>You have priced three deals.</h2>
+    <p>Add your email to unlock unlimited practice deals and hear about new deals from Structural Vacancy. The daily deal stays free either way.</p>
+    <form id="gateForm" novalidate>
+      <input id="gateEmail" name="email" type="email" autocomplete="email" placeholder="you@firm.com" aria-label="Email address" required>
+      <button class="primary" type="submit" style="min-height:48px">Unlock</button>
+    </form>
+    <div class="actions"><button class="ghost" id="gateBack" type="button">Not now</button><span class="note" id="gateNote" aria-live="polite"></span></div>
+  </section>
 </div></main>
 
 <footer><div class="wrap">
-  <p>Every deal here is a composite written for the game. None is a real transaction, and none of this is investment advice.</p>
+  <p>The deal you bid on is a composite written for the game, not a real transaction. The real trades shown after a deal are publicly reported sales, linked to their sources. None of this is investment advice.</p>
   <p>A new deal posts at midnight. Built with Claude Fable 5.2.</p>
 </div></footer>
 
@@ -278,10 +333,133 @@ var DEALS=[
  {head:"64,000 SF of crane-served manufacturing in Pasadena",tag:"64k SF crane-served, SE Houston",mkt_name:"Houston, TX",sub:"Southeast / Pasadena",type:"Crane-served manufacturing",sf:64000,yr:"1975, renovated 2012",clr:"28' hook",occ:1,ten:1,walt:9.0,rent:9.00,mkt:9.50,cap:.074,
   why:"Nine years of term would normally mean a tight cap. Specialized buildings have a narrow re-tenanting market, so buyers ask to be paid for the day the tenant leaves."},
  {head:"58,000 SF of small bay east of Tampa",tag:"58k SF small bay, East Tampa",mkt_name:"Tampa, FL",sub:"East / I-4",type:"Multi-tenant small bay",sf:58000,yr:"2008",clr:"20'",occ:.93,ten:16,walt:2.0,rent:12.60,mkt:14.25,cap:.061,
-  why:"Newer small bay in a Florida growth market with 13% of rent still to capture. The suite count keeps institutions away, and private capital fills the gap at a low six."}
+  why:"Newer small bay in a Florida growth market with 13% of rent still to capture. The suite count keeps institutions away, and private capital fills the gap at a low six."},
+ {head:"124,000 SF of multi-tenant industrial in the Kent Valley",tag:"124k SF multi-tenant, Kent Valley",mkt_name:"Seattle, WA",sub:"Kent Valley",type:"Multi-tenant industrial",sf:124000,yr:"1988",clr:"24'",occ:.97,ten:7,walt:2.8,rent:11.40,mkt:13.00,cap:.055,
+  why:"The Kent Valley is hemmed in by hills and water, so almost nothing new gets built at this size. Buyers accept a mid-5% yield for an older building because the land is the scarce part."},
+ {head:"380,000 SF of new bulk in Salt Lake's Northwest Quadrant",tag:"380k SF bulk, Salt Lake City",mkt_name:"Salt Lake City, UT",sub:"Northwest Quadrant",type:"Bulk distribution",sf:380000,yr:"2022",clr:"36'",occ:1,ten:2,walt:5.2,rent:7.80,mkt:7.90,cap:.057,
+  why:"A modern box with five years of term and rents already at market. With no mark-to-market to buy, the price follows the income at a core-plus yield."},
+ {head:"136,000 SF of shallow bay in Johnson County",tag:"136k SF shallow bay, Kansas City",mkt_name:"Kansas City",sub:"Johnson County / Lenexa",type:"Shallow bay",sf:136000,yr:"2004",clr:"24'",occ:.94,ten:10,walt:2.7,rent:6.90,mkt:7.80,cap:.066,
+  why:"Good product in a steady market that rarely surprises in either direction. Low rents and a mid-6% cap produce a price per foot under replacement cost."},
+ {head:"680,000 SF of bulk southeast of Memphis",tag:"680k SF bulk, Memphis",mkt_name:"Memphis, TN",sub:"Southeast / DeSoto County",type:"Bulk distribution",sf:680000,yr:"2015",clr:"32'",occ:1,ten:1,walt:3.1,rent:4.05,mkt:4.40,cap:.064,
+  why:"Memphis has some of the lowest bulk rents in the country and plenty of competing space. One tenant with three years left gets priced with the re-leasing risk in the yield."},
+ {head:"72,000 SF of small bay near the Orlando airport",tag:"72k SF small bay, Orlando",mkt_name:"Orlando, FL",sub:"Southwest / Airport",type:"Multi-tenant small bay",sf:72000,yr:"1999",clr:"20'",occ:.96,ten:18,walt:2.3,rent:13.20,mkt:15.00,cap:.058,
+  why:"Florida small bay with 14% of rent left to capture and leases that roll quickly. Population growth keeps the tenant list deep, and buyers pay for it."},
+ {head:"88,000 SF of flex off I-40 in the Research Triangle",tag:"88k SF flex, Raleigh-Durham",mkt_name:"Raleigh-Durham, NC",sub:"RTP / I-40",type:"Flex / small bay",sf:88000,yr:"2001",clr:"18'",occ:.91,ten:15,walt:2.5,rent:12.10,mkt:13.25,cap:.067,
+  why:"Flex near the Triangle leases well to lab-adjacent and service users, but the office share and 9% vacancy keep it out of the tightest pricing tier."},
+ {head:"540,000 SF of bulk in the Lehigh Valley",tag:"540k SF bulk, Lehigh Valley",mkt_name:"Lehigh Valley, PA",sub:"I-78 Corridor",type:"Bulk distribution",sf:540000,yr:"2019",clr:"40'",occ:1,ten:1,walt:4.6,rent:7.90,mkt:8.60,cap:.053,
+  why:"The I-78 corridor reaches a third of the US population in a day's drive, and land for big boxes is nearly gone. That combination earns one of the tightest bulk yields in the country."},
+ {head:"68,000 SF of infill warehouse in the South Bay",tag:"68k SF infill, LA South Bay",mkt_name:"Los Angeles, CA",sub:"South Bay / Carson",type:"Infill warehouse",sf:68000,yr:"1974",clr:"22'",occ:1,ten:3,walt:1.5,rent:21.60,mkt:17.50,cap:.061,
+  why:"The leases were signed near the 2022 peak and roll within 18 months to a market about 19% lower. The price still clears $350 a foot because port-adjacent land rarely trades."},
+ {head:"104,000 SF of multi-tenant industrial northwest of Minneapolis",tag:"104k SF multi-tenant, Minneapolis",mkt_name:"Minneapolis, MN",sub:"Northwest / Plymouth",type:"Multi-tenant industrial",sf:104000,yr:"1992",clr:"20'",occ:.92,ten:12,walt:2.4,rent:7.40,mkt:8.10,cap:.069,
+  why:"A stable, low-drama market with a mostly local buyer pool. Modest rent upside and 8% vacancy put it right around a 7% cap."}
 ];
 
-var ORDER=[9,3,7,12,1,4,8,0,17,2,13,5,15,10,18,6,16,14,20,19,11];
+var BASE="https://structuralvacancy.com/play";
+// Emails, play counts and the bid sheet go to the site's own backend (/api). Off anywhere else, and off until storage is connected.
+var FREE_DEALS=3,API=false;
+var LIVE=/(^|\.)structuralvacancy\.(com|pages\.dev)$/.test(location.hostname);
+var VID=(function(){try{var v=localStorage.getItem("ptd-vid");if(!v){v=Math.random().toString(36).slice(2,12)+Date.now().toString(36);localStorage.setItem("ptd-vid",v)}return v}catch(e){return null}})();
+function track(n,p){if(!LIVE)return;try{p=p||{};
+  var body=JSON.stringify({t:"event",name:n,vid:VID,day:S?S.day+1:null,deal:p.deal,mode:p.mode,won:p.won,bids:p.bids,first:p.first});
+  if(navigator.sendBeacon)navigator.sendBeacon("/api/e",body);else fetch("/api/e",{method:"POST",body:body,keepalive:true});
+}catch(e){}}
+var REG={"Phoenix, AZ":[24,"72%"],"Las Vegas, NV":[24,"72%"],"Miami, FL":[178,"58%"],"Tampa, FL":[178,"58%"],
+ "Houston, TX":[42,"78%"],"Dallas, TX":[42,"78%"],"Fort Worth, TX":[42,"78%"],"Austin, TX":[42,"78%"],"San Antonio, TX":[42,"78%"],
+ "Nashville, TN":[142,"40%"],"Atlanta, GA":[142,"40%"],"Charlotte, NC":[142,"40%"],
+ "Chicago, IL":[208,"44%"],"Columbus, OH":[208,"44%"],"Indianapolis, IN":[208,"44%"],"Denver, CO":[208,"44%"],
+ "Northern New Jersey":[318,"36%"],"Inland Empire, CA":[318,"36%"],"Lehigh Valley, PA":[318,"36%"],"Los Angeles, CA":[318,"36%"],"Seattle, WA":[318,"36%"],
+ "Salt Lake City, UT":[24,"72%"],"Orlando, FL":[178,"58%"],"Raleigh-Durham, NC":[142,"40%"],"Memphis, TN":[142,"40%"],
+ "Kansas City":[208,"44%"],"Minneapolis, MN":[208,"44%"]};
+var TX_NOTE="Texas does not require sale prices to be disclosed, so reported trades here often carry no price.";
+// Publicly reported sales, keyed by deal index. psf marked with * is calculated from the reported price and size.
+var COMPS={
+ 9:{rows:[
+  {n:"Creekside Logistics, Smyrna",d:"Three-building industrial park \u00B7 Aug 2026",p:"$81.75M",f:"about $220/SF",u:"https://www.costar.com/article/1116101043/nashville-area-industrial-park-sells-for-81-75-million",s:"CoStar"},
+  {n:"380 Aldi Boulevard, Mount Juliet",d:"90,000 SF manufacturing building \u00B7 2025",p:"$14.45M",f:"about $160/SF",u:"https://www.avisonyoung.us/w/90000-sf-nashville-manufacturing-building-sale-brokered-by-avison-young-14-5-million-dollar-sale",s:"Avison Young"}]},
+ 3:{rows:[
+  {n:"Fairway Commerce Center, Avondale",d:"450,260 SF \u00B7 Dec 2025",p:"$89.8M",f:"$199/SF*",u:"https://www.commercialsearch.com/news/westfield-rga-sell-phoenix-facility-for-90m/",s:"CommercialSearch"},
+  {n:"Luke Field Building C, Glendale",d:"Nearly 1.3M SF, bought by its occupier \u00B7 Dec 2025",p:"$152.2M",f:"about $117/SF*",u:"https://www.commercialsearch.com/news/walmart-buys-phoenix-facility-for-152m/",s:"CommercialSearch"}]},
+ 7:{rows:[
+  {n:"Meadowlands warehouse, East Rutherford",d:"86,000 SF, sold to an owner-user \u00B7 Oct 2026",p:"$25M",f:"$291/SF*",u:"https://www.lee-associates.com/newjersey/2026/10/28/terreno-sells-86000-sq-ft-meadowlands-warehouse-in-25-million-deal-with-owner-user/",s:"Lee & Associates"}]},
+ 12:{rows:[
+  {n:"Two warehouse complexes, Medley",d:"146,700 SF \u00B7 Jul 2026",p:"$38.8M",f:"$264/SF",u:"https://therealdeal.com/miami/2026/07/13/longpoint-partners-buys-39m-medley-industrial-portfolio/",s:"The Real Deal"},
+  {n:"Three-building portfolio, Medley",d:"90,000 SF \u00B7 Aug 2025",p:"$22.7M",f:"$253/SF",u:"https://therealdeal.com/miami/2025/08/06/sime-realty-owners-sold-medley-industrial-portfolio-for-23m",s:"The Real Deal"}]},
+ 1:{note:TX_NOTE,rows:[
+  {n:"19-building shallow and mid-bay portfolio",d:"About 1.4M SF, 13 of the buildings in DFW \u00B7 Apr 2026",p:"$207.5M",f:"about $148/SF*",u:"https://www.commercialsearch.com/news/mapletree-sells-1-4-msf-logistics-portfolio-for-208m/",s:"CommercialSearch"}]},
+ 4:{note:TX_NOTE,rows:[
+  {n:"New Hope business park, Cedar Park",d:"271,689 SF, fully leased to five tenants \u00B7 Apr 2026",p:"Not disclosed",f:"",u:"https://www.jll.com/en-us/newsroom/jll-arranges-sale-of-new-hope-industrial-campus-in-texas",s:"JLL"}]},
+ 8:{rows:[
+  {n:"O'Hare Logistics Center 16, Mount Prospect",d:"190,606 SF \u00B7 Jun 2026",p:"$48.3M",f:"almost $254/SF",u:"https://www.commercialsearch.com/news/exclusive-ares-seefried-make-48m-chicago-deal/",s:"CommercialSearch"},
+  {n:"1211 Tower Road, Schaumburg",d:"108,000 SF, newly built \u00B7 Jan 2026",p:"$21.4M",f:"$198/SF*",u:"https://www.globenewswire.com/news-release/2026/01/27/3226891/0/en/Thor-Equities-Completes-Sale-of-Newly-Constructed-Industrial-Asset-Outside-Chicago.html",s:"GlobeNewswire"}]},
+ 2:{rows:[
+  {n:"Lake City Distribution Center, Lake City",d:"157,371 SF, fully leased to two tenants \u00B7 Sep 2025",p:"$30.05M",f:"$191/SF*",u:"https://www.jll.com/en-us/newsroom/inlight-real-estate-partners-sells-atlanta-industrial-asset",s:"JLL"},
+  {n:"Town Point I, II and III, Kennesaw",d:"302,120 SF \u00B7 Jan 2026",p:"$53.9M",f:"$178/SF*",u:"https://www.commercialsearch.com/news/exclusive-link-logistics-pays-54m-for-atlanta-area-portfolio/",s:"CommercialSearch"}]},
+ 6:{rows:[
+  {n:"875 West State Street, Ontario",d:"Nearly 257,000 SF, fully occupied \u00B7 Jan 2026",p:"$57M",f:"about $222/SF*",u:"https://therealdeal.com/la/2026/01/12/orden-company-pays-57-million-for-ontario-warehouse",s:"The Real Deal"}]},
+ 13:{rows:[
+  {n:"Watkins Logistics Center, Columbus",d:"290,573 SF, fully leased to one tenant \u00B7 Dec 2024",p:"Not disclosed",f:"",u:"https://rejournals.com/clear-height-properties-mlg-capital-sell-290573-square-foot-industrial-building-in-columbus/",s:"REjournals"}]},
+ 14:{rows:[
+  {n:"6284 South Nome Court, Centennial",d:"112,500 SF manufacturing building \u00B7 Feb 2026",p:"$21.5M",f:"$191/SF*",u:"https://www.jll.com/en-us/newsroom/jll-secures-sale-of-6284-s-nome-court-in-centennial-co",s:"JLL"},
+  {n:"Peoria Business Center, Denver",d:"592,572 SF, 98% leased to 19 tenants \u00B7 Jan 2024",p:"$73.5M",f:"$124/SF*",u:"https://commercialsearch.com/news/invesco-sells-denver-industrial-campus-for-74m",s:"CommercialSearch"}]},
+ 15:{rows:[
+  {n:"Greylyn Business Park, Charlotte",d:"648,060 SF in 19 buildings, 93% leased to 91 tenants \u00B7 Mar 2026",p:"$102M",f:"$157/SF*",u:"https://www.commercialsearch.com/news/equus-pays-102m-for-charlotte-campus/",s:"CommercialSearch"}]},
+ 17:{rows:[
+  {n:"Las Vegas Logistics Center, North Las Vegas",d:"About 1M SF in three buildings, fully leased \u00B7 Jun 2025",p:"$175M",f:"$167/SF",u:"https://www.commercialsearch.com/news/blackstone-unit-sells-vegas-industrial-park-for-175m",s:"CommercialSearch"},
+  {n:"Cartier Industrial Center, North Las Vegas",d:"74,700 SF, one tenant \u00B7 Jan 2025",p:"$17.3M",f:"$232/SF",u:"https://rebusinessonline.com/avison-young-brokers-17-3m-sale-of-industrial-building-in-north-las-vegas/",s:"REBusiness"}]},
+ 18:{rows:[
+  {n:"Seven-property portfolio, Indianapolis",d:"About 1.32M SF as reported \u00B7 Oct 2025",p:"$107.3M",f:"about $81/SF*",u:"https://rejournals.com/cbre-closes-sale-of-1-32-million-square-foot-industrial-portfolio-in-indianapolis/",s:"REjournals"}]},
+ 20:{rows:[
+  {n:"Three buildings at Pioneer Park, Tampa",d:"169,055 SF, 90% leased to 11 tenants \u00B7 Jul 2026",p:"Not disclosed",f:"",u:"https://www.businessobserverfl.com/news/2026/jul/27/tampa-industrial-properties-sell/",s:"Business Observer"},
+  {n:"Tampa Airport Logistics Center",d:"297,254 SF, fully leased \u00B7 Jan 2024",p:"$55.6M",f:"$187/SF*",u:"https://www.commercialsearch.com/news/pccp-sells-tampa-industrial-park-for-56m",s:"CommercialSearch"}]},
+ 0:{note:TX_NOTE,rows:[
+  {n:"Northwest Spur Industrial Park, Houston",d:"1,010,912 SF in six buildings, 14 tenants, fully occupied \u00B7 Jun 2026",p:"Not disclosed",f:"",u:"https://www.jll.com/en-us/newsroom/jll-completes-sale-of-northwest-spur-industrial-park",s:"JLL"}]},
+ 10:{note:TX_NOTE,rows:[
+  {n:"Park 845 Crossing, North Houston",d:"757,325 SF in five buildings, 99% leased to 11 tenants \u00B7 Aug 2026",p:"Not disclosed",f:"",u:"https://www.jll.com/en-us/newsroom/jll-arranges-sale-of-park-845-crossing-in-north-houston",s:"JLL"}]},
+ 19:{note:TX_NOTE,rows:[
+  {n:"Northwest Houston manufacturing portfolio",d:"127,626 SF in four buildings, fully leased \u00B7 Feb 2026",p:"Not disclosed",f:"",u:"https://www.jll.com/en-us/newsroom/northwest-houston-manufacturing-portfolio-trades-hands",s:"JLL"}]},
+ 5:{note:TX_NOTE,rows:[
+  {n:"Eisenhauer North Business Park, San Antonio",d:"458,439 SF in three buildings \u00B7 Nov 2024",p:"Not disclosed",f:"",u:"https://rebusinessonline.com/jll-arranges-sale-of-458439-sf-industrial-park-in-northeast-san-antonio/",s:"REBusiness"}]},
+ 11:{note:TX_NOTE,rows:[
+  {n:"Northwest Commerce Park Building 2, Fort Worth",d:"266,152 SF \u00B7 Aug 2026",p:"Not disclosed",f:"",u:"https://rejournals.com/bgo-alliance-industrial-company-acquire-266152-square-foot-industrial-property-in-fort-worth/",s:"REjournals"},
+  {n:"Elizabeth Creek Gateway D and E, AllianceTexas",d:"1,106,064 SF, fully leased to three tenants \u00B7 Mar 2025",p:"Not disclosed",f:"",u:"https://www.jll.com/en-us/newsroom/1m-sf-of-class-a-industrial-product-trades-hands-in-dfw",s:"JLL"}]},
+ 16:{note:TX_NOTE,rows:[
+  {n:"19-building shallow and mid-bay portfolio",d:"About 1.4M SF, 13 of the buildings in DFW \u00B7 Apr 2026",p:"$207.5M",f:"about $148/SF*",u:"https://www.commercialsearch.com/news/mapletree-sells-1-4-msf-logistics-portfolio-for-208m/",s:"CommercialSearch"}]}
+};
+var MKEY="price-the-deal-meta";
+function meta(){try{var m=JSON.parse(localStorage.getItem(MKEY))||{};if(!Array.isArray(m.played))m.played=[];return m}catch(e){return {played:[]}}}
+function saveMeta(m){try{localStorage.setItem(MKEY,JSON.stringify(m))}catch(e){}}
+function compsHTML(di){
+  var c=COMPS[di];$("comps").hidden=!c;if(!c)return;
+  var star=false;
+  $("compList").innerHTML=c.rows.map(function(r){if(r.f.indexOf("*")>-1)star=true;
+    return '<li><span class="c-name">'+r.n+'</span><span class="c-price">'+r.p+'</span><span class="c-det">'+r.d+' \u00B7 <a href="'+r.u+'" target="_blank" rel="noreferrer">'+r.s+' \u2197</a></span><span class="c-psf">'+r.f+'</span></li>'}).join("");
+  $("compNote").textContent=(c.note?c.note+" ":"")+"Reported sales, not the answer key: size, age and lease terms differ from the deal above."+(star?" * Calculated from the reported price and size.":"");
+}
+var OUT=["1 bid","2 bids","3 bids","4 bids","5 bids","Outbid"];
+function crowd(){
+  var box=$("crowd");box.hidden=true;
+  if(!API||!S.done||S.mode!=="daily")return;
+  var day=S.day+1,d=DEALS[S.di];
+  fetch("/api/crowd?day="+day).then(function(r){return r.json()}).then(function(j){
+    if(!j||!j.n||day!==S.day+1||!S.done)return;
+    box.hidden=false;
+    if(!j.out){$("crowdLine").textContent=j.n===1?"You are the first to bid on this deal. The bid sheet opens at five bidders.":"You are one of the first "+j.n+" to bid on this deal. The bid sheet opens at five bidders.";
+      $("crowdBars").innerHTML="";$("heatWrap").hidden=true;return}
+    var me=S.won?S.bids.length-1:5,max=Math.max.apply(null,j.out),worse=0,won=0;
+    j.out.forEach(function(c,i){if(i>me)worse+=c;if(i<5)won+=c});
+    $("crowdLine").textContent=j.n+" bidders so far. "+(S.won&&j.n>1?"You landed it in fewer bids than "+Math.round(worse/(j.n-1)*100)+"% of them.":Math.round(won/j.n*100)+"% landed the deal.");
+    $("crowdBars").innerHTML=j.out.map(function(c,i){return '<div class="cb'+(i===me?" me":"")+'"><span>'+OUT[i]+'</span><i style="width:'+(max?c/max*100:0)+'%"></i><b>'+c+'</b></div>'}).join("");
+    var hm=Math.max.apply(null,j.first),ab=Math.min(19,Math.floor(price(d)/20));
+    $("heat").innerHTML=j.first.map(function(c,i){return '<i'+(i===ab?' class="ans"':"")+' style="--o:'+(hm?(c/hm).toFixed(2):0)+'" title="$'+(i*20)+" to $"+(i*20+20)+": "+c+'"></i>'}).join("");
+    $("heatWrap").hidden=false;
+  }).catch(function(){});
+}
+function copyText(t,note,ok){
+  function fallback(){try{$("share").hidden=false;$("share").textContent=t;var r=document.createRange();r.selectNodeContents($("share"));var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}note.textContent="Selected. Copy it from here."}
+  try{navigator.clipboard.writeText(t).then(function(){note.textContent=ok},fallback)}catch(e){fallback()}
+}
+
+var ORDER=[9,3,7,12,1,4,8,0,17,2,13,5,15,10,18,6,16,14,20,19,11,21,22,23,24,25,26,27,28,29];
 var TYPES={"Multi-tenant small bay":[100,0],"Shallow bay":[160,1],"Office-flex":[90,0],"Bulk distribution":[520,1],"Single-tenant warehouse":[260,1],"Infill warehouse":[180,1],"Multi-tenant industrial":[180,1],"Flex / small bay":[100,0],"Mid-bay":[240,1],"Crane-served manufacturing":[160,0],"Multi-tenant warehouse":[160,1]};
 var ZX=2;
 function gcd(a,b){return b?gcd(b,a%b):a}
@@ -373,7 +551,7 @@ function startDaily(){
   else if(st.lastWin!==day-1&&st.lastWin!==day){S.streak=0}
 }
 function startPractice(){
-  var di;do{di=Math.floor(Math.random()*DEALS.length)}while(di===S.di);
+  var di,pl=meta().played,t=0;do{di=Math.floor(Math.random()*DEALS.length);t++}while(di===S.di||(t<60&&pl.indexOf(di)>-1));
   S={mode:"practice",day:S.day,di:di,bids:[],done:false,won:false,streak:S.streak,lastWin:S.lastWin};
 }
 function persist(){if(S.mode==="daily")save({day:S.day,bids:S.bids,done:S.done,won:S.won,streak:S.streak,lastWin:S.lastWin})}
@@ -390,7 +568,8 @@ function render(fresh){
     ?"Price the Deal · No. "+pad(S.day+1)+" · "+date.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})
     :"Price the Deal · Practice";
   $("head").textContent=d.head;
-  if(drawn!==S.di){drawn=S.di;sketch(d)}
+  if(drawn!==S.di){drawn=S.di;sketch(d);var rg=REG[d.mkt_name]||[14,"52%"];
+    document.documentElement.style.setProperty("--h",rg[0]);document.documentElement.style.setProperty("--s",rg[1])}
   ruler(d);
   $("stamp").hidden=!S.done;
   if(S.done)$("stamp").innerHTML=(S.won?"Awarded":"Outbid")+"<small>$"+a+" / SF</small>";
@@ -419,8 +598,10 @@ function render(fresh){
     $("resHead").textContent=(S.won?"The deal is yours at ":"It traded at ")+"$"+a+" per square foot.";
     $("resMath").textContent=money(a*d.sf)+" total, a "+pct(d.cap)+" cap on in-place income and "+pct(d.mkt*d.occ/a)+" with rents marked to market.";
     $("resWhy").textContent=d.why;
+    compsHTML(S.di);
+    if(!fresh){$("crowd").hidden=true;if(S.mode==="daily")crowd()}
     var daily=S.mode==="daily";
-    $("share").hidden=!daily; $("copy").hidden=!daily;
+    $("share").hidden=!daily; $("copy").hidden=!daily; $("challenge").hidden=!daily;
     if(daily)$("share").textContent=shareText(d);
     $("practice").textContent=daily?"Practice deal":"Another practice deal";
     $("today").hidden=daily;
@@ -446,28 +627,55 @@ $("bidform").addEventListener("submit",function(e){
   var d=DEALS[S.di],g=parseBid();
   if(!g||g<10||g>2000){updateReadout("Enter a whole-dollar price between $10 and $2,000 per SF.");$("bid").focus();return}
   if(S.bids.indexOf(g)>-1){updateReadout("You already bid $"+g+". Try a different number.");return}
+  if(!S.bids.length)track("game_start",{deal:S.di,mode:S.mode});
   S.bids.push(g);
   var b=band(d,g);
   if(b==="win"){S.done=true;S.won=true;if(S.mode==="daily"){S.streak=(S.lastWin===S.day-1?S.streak:0)+1;S.lastWin=S.day}}
   else if(S.bids.length>=MAX){S.done=true;if(S.mode==="daily")S.streak=0}
   persist();
+  if(S.done){var mm=meta();mm.n=(mm.n||0)+1;if(mm.played.indexOf(S.di)<0)mm.played.push(S.di);saveMeta(mm);
+    track("game_end",{deal:S.di,mode:S.mode,won:S.won,bids:S.bids.length,first:S.bids[0]});
+    if(S.mode==="daily")setTimeout(crowd,700)}
   $("bid").value="";
   render(true);
   if(S.done){$("result").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"})}
 });
 
-$("copy").addEventListener("click",function(){
-  var t=$("share").textContent,note=$("note");
-  function fallback(){try{var r=document.createRange();r.selectNodeContents($("share"));var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}note.textContent="Selected. Copy it from here."}
-  try{navigator.clipboard.writeText(t).then(function(){note.textContent="Copied. Paste it into a post."},fallback)}catch(e){fallback()}
+$("copy").addEventListener("click",function(){track("copy_result",{deal:S.di});copyText($("share").textContent,$("note"),"Copied. Paste it into a post.")});
+$("challenge").addEventListener("click",function(){
+  var n=S.day+1,t=(S.won?"I landed Price the Deal No. "+pad(n)+" in "+S.bids.length+(S.bids.length===1?" bid":" bids")+". Beat me: ":"Price the Deal No. "+pad(n)+" got away from me. Your turn: ")+BASE+"#d"+n+"-b"+(S.won?S.bids.length:"x");
+  track("challenge_copy",{deal:S.di,won:S.won,bids:S.bids.length});
+  copyText(t,$("note"),"Challenge copied. Send it to a friend.");
 });
-$("practice").addEventListener("click",function(){startPractice();render();scrollTo(0,0)});
-$("today").addEventListener("click",function(){startDaily();render();scrollTo(0,0)});
+function gateOn(){var m=meta();return API&&!m.unlocked&&(m.n||0)>=FREE_DEALS}
+function goPractice(){$("gate").hidden=true;startPractice();track("practice_start",{deal:S.di});render();scrollTo(0,0)}
+$("practice").addEventListener("click",function(){
+  if(gateOn()){$("gate").hidden=false;track("gate_shown",{});$("gate").scrollIntoView({block:"nearest"});$("gateEmail").focus();return}
+  goPractice();
+});
+$("gateForm").addEventListener("submit",function(e){
+  e.preventDefault();
+  var em=$("gateEmail"),note=$("gateNote");
+  if(!em.value||!em.checkValidity()){note.textContent="Enter a valid email address.";em.focus();return}
+  note.textContent="Saving...";
+  fetch("/api/e",{method:"POST",body:JSON.stringify({t:"email",email:em.value,vid:VID})}).then(function(r){return r.json()}).then(function(j){
+    if(!j.ok)throw 0;var m=meta();m.unlocked=true;saveMeta(m);note.textContent="";goPractice();
+  }).catch(function(){note.textContent="That did not save. Check the address and try again."});
+});
+$("gateBack").addEventListener("click",function(){$("gate").hidden=true});
+$("today").addEventListener("click",function(){$("gate").hidden=true;startDaily();render();scrollTo(0,0)});
 
 function boot(data){
   startDaily();
   if(data&&data.S&&data.S.day===S.day){S=data.S}
+  var ch=/^#d(\d+)-b([1-5x])$/.exec(location.hash||"");
+  if(ch){var cn=+ch[1],cb=ch[2],bn=$("banner");bn.hidden=false;
+    bn.textContent=cn!==S.day+1?"A friend sent you Deal No. "+pad(cn)+". That one has closed, so here is today's."
+      :cb==="x"?"A friend got outbid on this deal. See if you can land it."
+      :"A friend landed this deal in "+cb+(cb==="1"?" bid":" bids")+". Beat them.";
+    track("challenge_open",{deal:cn,bids:cb})}
   render();
+  if(LIVE)fetch("/api/e").then(function(r){return r.json()}).then(function(j){API=!!(j&&j.ok);if(API&&S.done)crowd()}).catch(function(){});
 }
 var hot=window.claude&&window.claude.hot;
 if(hot&&hot.snapshot){try{hot.snapshot(function(){return {S:S}})}catch(e){}}
