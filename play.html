@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Price the Deal — Structural Vacancy</title>
+<meta name="description" content="One composite industrial deal a day. Read the site sketch and tear sheet, then land the price per square foot in five bids.">
+<link rel="canonical" href="https://www.structuralvacancy.com/play">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<meta name="theme-color" content="#e8e2d4">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Structural Vacancy">
+<meta property="og:title" content="Price the Deal — Structural Vacancy">
+<meta property="og:description" content="One composite industrial deal a day. Read the site sketch and tear sheet, then land the price per square foot in five bids.">
+<meta property="og:image" content="https://www.structuralvacancy.com/og.jpg">
+<meta property="og:url" content="https://www.structuralvacancy.com/play">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@StructuralVac">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap">
+<style>
+html,body{margin:0;padding:0}
+[hidden]{display:none!important}
+img{max-width:100%}
+/* Layout: one narrow desk column. Tear sheet on top, bid box, then a five-row bid ladder that fills in. */
+:root{
+  --paper:#e8e2d4; --ink:#1a1714; --rule:#cfc6b6; --soft:#3b352d; --muted:#5c564c; --faint:#8a8378;
+  --panel:#f1ecdf; --rust:#c45c3a; --on-rust:#fff8f0;
+  --cold:#4e5c62; --warm:#a87a1f; --hot:#c45c3a; --win:#3f7048;
+  --roof:#f6f1e6; --face1:#d6cdbb; --face2:#bdb29d; --pad:#ded7c7;
+  --serif:'Instrument Serif',Georgia,'Times New Roman',serif;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#1a1714; --ink:#e8e2d4; --rule:#3a342c; --soft:#d3ccbd; --muted:#a39b8d; --faint:#7d766a;
+  --panel:#231f1a; --rust:#d9714e; --on-rust:#1a1714;
+  --cold:#8296a0; --warm:#d2a445; --hot:#e07c58; --win:#7fb287;
+  --roof:#4a4338; --face1:#2f2a24; --face2:#24201b; --pad:#201c18; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --paper:#1a1714; --ink:#e8e2d4; --rule:#3a342c; --soft:#d3ccbd; --muted:#a39b8d; --faint:#7d766a;
+  --panel:#231f1a; --rust:#d9714e; --on-rust:#1a1714;
+  --cold:#8296a0; --warm:#d2a445; --hot:#e07c58; --win:#7fb287;
+  --roof:#4a4338; --face1:#2f2a24; --face2:#24201b; --pad:#201c18; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+::selection{background:var(--ink);color:var(--paper)}
+a{color:var(--ink)}
+.wrap{max-width:44rem;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+header.top{border-bottom:1px solid var(--rule)}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:18px;height:18px;flex:none}
+.brand span{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.handle{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;white-space:nowrap}
+
+main .wrap{padding-block:40px 56px;display:flex;flex-direction:column;gap:32px}
+.intro{display:flex;flex-direction:column;gap:14px}
+h1{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(34px,8vw,52px);line-height:1.04;letter-spacing:-.02em;text-wrap:balance}
+.deck{margin:0;font-family:var(--serif);font-style:italic;font-size:clamp(19px,4.6vw,23px);line-height:1.35;color:var(--soft);text-wrap:balance}
+
+.sheet{margin:0;display:grid;grid-template-columns:1fr 1fr;column-gap:28px;border-bottom:1px solid var(--rule)}
+.sheet div{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:11px 0;border-top:1px solid var(--rule);min-width:0}
+.sheet dt{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.sheet dd{margin:0;font-weight:500;text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.sheet{grid-template-columns:1fr}}
+
+.bidbox{background:var(--panel);border:1px solid var(--rule);padding:20px;display:flex;flex-direction:column;gap:14px}
+.bidrow{display:flex;gap:12px;align-items:stretch;flex-wrap:wrap}
+.field{flex:1 1 180px;display:flex;align-items:baseline;gap:8px;border-bottom:2px solid var(--ink);padding:2px 0 6px;min-width:0}
+.field span{font-family:var(--serif);font-size:34px;line-height:1;color:var(--muted)}
+.field input{flex:1;min-width:0;width:100%;border:0;background:transparent;color:var(--ink);font-family:var(--serif);font-size:44px;line-height:1;padding:0;font-variant-numeric:tabular-nums}
+.field input::placeholder{color:var(--faint);opacity:.6}
+.field input:focus{outline:none}
+.field:focus-within{border-bottom-color:var(--rust)}
+button{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:0}
+.primary{flex:0 0 auto;background:var(--ink);color:var(--paper);border:1px solid var(--ink);padding:0 22px;min-height:52px}
+.primary:hover{background:var(--rust);border-color:var(--rust);color:var(--on-rust)}
+.ghost{background:transparent;color:var(--ink);border:1px solid var(--ink);padding:0 18px;min-height:44px}
+.ghost:hover{background:var(--ink);color:var(--paper)}
+button:focus-visible,a:focus-visible{outline:2px solid var(--rust);outline-offset:3px}
+.readout{margin:0;font-family:var(--mono);font-size:12.5px;color:var(--muted);min-height:1.5em;font-variant-numeric:tabular-nums}
+.readout.err{color:var(--hot)}
+.rules{margin:0;font-size:14px;color:var(--muted)}
+
+.ladder{list-style:none;margin:0;padding:0;border-bottom:1px solid var(--rule)}
+.ladder li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:12px 0;border-top:1px solid var(--rule);min-height:54px}
+.sq{width:18px;height:18px;border:1.25px solid var(--faint);flex:none}
+.sq.cold{background:var(--cold);border-color:var(--cold)}
+.sq.warm{background:var(--warm);border-color:var(--warm)}
+.sq.hot{background:var(--hot);border-color:var(--hot)}
+.sq.win{background:var(--win);border-color:var(--win)}
+.ladder .bid{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;min-width:0}
+.ladder .amt{font-family:var(--serif);font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.ladder .cap{font-family:var(--mono);font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ladder .verdict{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;text-align:right;white-space:nowrap}
+.ladder .empty{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint)}
+.v-cold{color:var(--cold)}.v-warm{color:var(--warm)}.v-hot{color:var(--hot)}.v-win{color:var(--win)}
+
+.result{display:flex;flex-direction:column;gap:16px;border-top:2px solid var(--ink);padding-top:22px}
+.result h2{margin:0;font-family:var(--serif);font-weight:400;font-size:clamp(28px,6.4vw,38px);line-height:1.08;letter-spacing:-.01em;text-wrap:balance}
+.result p{margin:0;max-width:60ch}
+.result .why{color:var(--soft)}
+.share{margin:0;background:var(--panel);border:1px solid var(--rule);padding:14px 16px;font-family:var(--mono);font-size:13px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;user-select:all;-webkit-user-select:all}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.actions .note{font-family:var(--mono);font-size:12px;color:var(--muted)}
+
+.plate{margin:0;display:flex;flex-direction:column;gap:10px}
+.plate .frame{position:relative;border:1px solid var(--rule);background:
+  linear-gradient(var(--rule) 1px,transparent 1px) 0 0/100% 28px,
+  linear-gradient(90deg,var(--rule) 1px,transparent 1px) 0 0/28px 100%,var(--panel)}
+.plate svg{display:block;width:100%;height:auto}
+.plate figcaption{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 18px;font-family:var(--mono);font-size:11.5px;color:var(--muted)}
+.key{display:inline-flex;align-items:center;gap:6px;margin-left:12px}
+.key:first-child{margin-left:0}
+.key i{width:12px;height:12px;border:1px solid var(--ink);background:var(--roof);display:inline-block}
+.key i.v{background:repeating-linear-gradient(45deg,var(--rust) 0 2px,var(--roof) 2px 5px)}
+.sk-pad{fill:var(--pad);stroke:var(--faint);stroke-dasharray:5 4}
+.sk-roof{fill:var(--roof);stroke:var(--ink)}
+.sk-vac{fill:url(#vh);stroke:var(--ink)}
+.sk-f1{fill:var(--face1);stroke:var(--ink)}
+.sk-f2{fill:var(--face2);stroke:var(--ink)}
+.sk-door{fill:var(--ink);opacity:.72;stroke:none}
+.sk-vdoor{fill:var(--roof);stroke:var(--rust)}
+.sk-park{stroke:var(--faint);fill:none}
+.sk-road{fill:var(--face1);stroke:none;opacity:.6}
+.sk-lane{stroke:var(--roof);stroke-dasharray:7 6;fill:none}
+.sk-tree{fill:var(--win);opacity:.6;stroke:var(--ink)}
+.sk-unit{fill:var(--face1);stroke:var(--ink)}
+.sk-tr{fill:var(--roof);stroke:var(--ink)}
+.sk-tr2{fill:var(--face1);stroke:var(--ink)}
+.plate svg *{vector-effect:non-scaling-stroke;stroke-width:1;stroke-linejoin:round}
+.stamp{position:absolute;right:14px;top:14px;transform:rotate(-5deg);border:3px solid var(--rust);color:var(--rust);background:color-mix(in srgb,var(--panel) 82%,transparent);font-family:var(--mono);font-weight:500;font-size:clamp(15px,4.2vw,24px);letter-spacing:.2em;text-transform:uppercase;padding:6px 12px 6px 16px;white-space:nowrap}
+.stamp small{display:block;font-size:.42em;letter-spacing:.16em;text-align:center;margin-top:2px}
+
+.ruler{display:flex;flex-direction:column;gap:8px}
+.ruler .head{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.track{position:relative;height:44px;margin:0 9px}
+.track .axis{position:absolute;left:0;right:0;top:21px;border-top:1.25px solid var(--ink)}
+.track .tick{position:absolute;top:15px;height:13px;border-left:1px solid var(--ink)}
+.track .tick.minor{top:18px;height:7px;border-color:var(--faint)}
+.track .play{position:absolute;top:8px;height:27px;background:color-mix(in srgb,var(--rust) 20%,transparent);border-left:1.5px solid var(--rust);border-right:1.5px solid var(--rust);transition:left .35s,width .35s}
+.track .mk{position:absolute;top:13px;width:16px;height:16px;margin-left:-8px;border:1.25px solid var(--paper)}
+.track .mk.cold{background:var(--cold)}.track .mk.warm{background:var(--warm)}.track .mk.hot{background:var(--hot)}.track .mk.win{background:var(--win)}
+.track .flag{position:absolute;top:0;height:44px;border-left:2px solid var(--win)}
+.scale{position:relative;height:16px;margin:0 9px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.scale span{position:absolute;transform:translateX(-50%);font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion:no-preference){
+  .rise{animation:rise .6s cubic-bezier(.2,.7,.2,1) backwards}
+  .stamp{animation:stamp .32s cubic-bezier(.2,1.4,.4,1) backwards}
+}
+@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
+@keyframes stamp{from{opacity:0;transform:rotate(-5deg) scale(1.7)}to{opacity:1;transform:rotate(-5deg) scale(1)}}
+
+footer .wrap{border-top:1px solid var(--rule);padding-block:20px 32px;font-size:13px;color:var(--muted);display:flex;flex-direction:column;gap:4px}
+footer p{margin:0}
+@media (prefers-reduced-motion:no-preference){.ladder li.new .sq{animation:pop .28s ease-out}}
+@keyframes pop{from{transform:scale(.4)}to{transform:scale(1)}}
+</style>
+</head>
+<body>
+
+<header class="top"><div class="wrap">
+  <a class="brand" href="/">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="1.25" y="1.25" width="10.75" height="10.75" fill="currentColor" opacity=".22"/><rect x="1.25" y="1.25" width="21.5" height="21.5" fill="none" stroke="currentColor" stroke-width="1.25"/><path d="M12 1.25v21.5M1.25 12h21.5" fill="none" stroke="currentColor" stroke-width="1.25"/></svg>
+    <span>Structural Vacancy</span>
+  </a>
+  <a class="handle" href="https://x.com/StructuralVac" target="_blank" rel="noreferrer">@StructuralVac ↗</a>
+</div></header>
+
+<main><div class="wrap">
+  <section class="intro">
+    <p class="label num" id="eyebrow" style="margin:0"></p>
+    <h1 id="head"></h1>
+    <p class="deck">What does it trade for, per square foot?</p>
+  </section>
+
+  <figure class="plate">
+    <div class="frame">
+      <svg id="sketch" viewBox="0 0 720 400" role="img" aria-label="Isometric massing sketch of the property"></svg>
+      <div class="stamp" id="stamp" hidden></div>
+    </div>
+    <figcaption><span id="dims"></span><span><span class="key"><i></i>Leased</span><span class="key"><i class="v"></i>Vacant</span></span></figcaption>
+  </figure>
+
+  <dl class="sheet" id="sheet"></dl>
+
+  <form class="bidbox" id="bidform" novalidate>
+    <label class="label" for="bid">Your bid, per square foot</label>
+    <div class="bidrow">
+      <div class="field"><span aria-hidden="true">$</span><input id="bid" name="bid" type="text" inputmode="numeric" autocomplete="off" maxlength="4" placeholder="000" aria-describedby="readout"></div>
+      <button class="primary" id="submit" type="submit">Submit bid</button>
+    </div>
+    <p class="readout" id="readout" aria-live="polite"></p>
+    <p class="rules">Five bids. Land within 3% of the price and the deal is yours. Each miss tells you which way to move.</p>
+  </form>
+
+  <div class="ruler">
+    <div class="head"><span class="label">Price per SF</span><span class="label num" id="inplay"></span></div>
+    <div class="track" id="track"></div>
+    <div class="scale" aria-hidden="true"><span style="left:0">$0</span><span style="left:25%">$100</span><span style="left:50%">$200</span><span style="left:75%">$300</span><span style="left:100%">$400</span></div>
+  </div>
+
+  <ol class="ladder" id="ladder" aria-label="Your bids"></ol>
+
+  <section class="result" id="result" hidden>
+    <p class="label" id="resLabel" style="margin:0"></p>
+    <h2 id="resHead"></h2>
+    <p class="num" id="resMath"></p>
+    <p class="why" id="resWhy"></p>
+    <pre class="share" id="share" hidden></pre>
+    <div class="actions">
+      <button class="primary" id="copy" type="button" style="min-height:44px">Copy result</button>
+      <button class="ghost" id="practice" type="button">Practice deal</button>
+      <button class="ghost" id="today" type="button" hidden>Back to today</button>
+      <span class="note" id="note" aria-live="polite"></span>
+    </div>
+  </section>
+</div></main>
+
+<footer><div class="wrap">
+  <p>Every deal here is a composite written for the game. None is a real transaction, and none of this is investment advice.</p>
+  <p>A new deal posts at midnight. Built with Claude Fable 5.2.</p>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+var SITE="structuralvacancy.com/play";
+var LAUNCH=new Date(2026,10,10);
+var MAX=5;
+
+// rent and mkt are NNN $/SF/yr. cap is the going-in cap on in-place NOI. Price = rent x occ / cap.
+var DEALS=[
+ {head:"84,000 SF of small bay in Northwest Houston",tag:"84k SF small bay, NW Houston",mkt_name:"Houston, TX",sub:"Northwest / US-290",type:"Multi-tenant small bay",sf:84000,yr:"1984",clr:"18'",occ:.94,ten:22,walt:2.1,rent:9.40,mkt:11.25,cap:.066,
+  why:"The short lease term is the appeal. Rents sit about 20% under market and most of the roll lands inside three years, so the buyer accepts a thinner going-in yield to own the mark-to-market."},
+ {head:"142,000 SF of shallow bay in East Dallas",tag:"142k SF shallow bay, East Dallas",mkt_name:"Dallas, TX",sub:"Garland / East",type:"Shallow bay",sf:142000,yr:"1998",clr:"24'",occ:1,ten:9,walt:3.4,rent:8.10,mkt:9.75,cap:.059,
+  why:"Full building, functional clear height and a 20% rent gap in a submarket with almost nothing under construction below 150,000 SF. That profile draws the deepest bidder pool."},
+ {head:"96,000 SF of office-flex near the Atlanta airport",tag:"96k SF office-flex, Atlanta Airport",mkt_name:"Atlanta, GA",sub:"Airport / South",type:"Office-flex",sf:96000,yr:"1989",clr:"16'",occ:.81,ten:31,walt:1.8,rent:10.20,mkt:11.00,cap:.079,
+  why:"Heavy office finish, low clear and 19% vacancy across 31 small tenants. Buyers underwrite real downtime and real re-tenanting cost, so the yield has to be wide."},
+ {head:"412,000 SF of new bulk in Southwest Phoenix",tag:"412k SF bulk, SW Phoenix",mkt_name:"Phoenix, AZ",sub:"Southwest / Tolleson",type:"Bulk distribution",sf:412000,yr:"2021",clr:"36'",occ:1,ten:1,walt:6.5,rent:7.20,mkt:7.60,cap:.054,
+  why:"Six and a half years of term on a modern box is a bond with a warehouse attached. There is little rent growth to buy, so the price tracks the income."},
+ {head:"61,000 SF of small bay in North Austin",tag:"61k SF small bay, North Austin",mkt_name:"Austin, TX",sub:"North / Pflugerville",type:"Multi-tenant small bay",sf:61000,yr:"2019",clr:"24'",occ:.88,ten:14,walt:2.6,rent:14.50,mkt:14.00,cap:.064,
+  why:"In-place rents are slightly above market, so the roll is a risk instead of a prize. New construction still earns a high price per foot, but the yield is wider than the vintage suggests."},
+ {head:"118,000 SF of shallow bay on I-35 in San Antonio",tag:"118k SF shallow bay, San Antonio",mkt_name:"San Antonio, TX",sub:"Northeast / I-35",type:"Shallow bay",sf:118000,yr:"2006",clr:"24'",occ:.97,ten:11,walt:2.9,rent:7.60,mkt:8.75,cap:.065,
+  why:"Solid product in a market with a thinner buyer pool than Dallas or Houston. The same building prices 50 to 75 basis points wider here."},
+ {head:"156,000 SF single-tenant box in the Inland Empire",tag:"156k SF single-tenant, Inland Empire",mkt_name:"Inland Empire, CA",sub:"West / Ontario",type:"Single-tenant warehouse",sf:156000,yr:"2001",clr:"30'",occ:1,ten:1,walt:1.2,rent:19.80,mkt:14.50,cap:.069,
+  why:"The lease was signed at the 2023 peak and expires in 14 months, with market rent about 27% lower. The in-place cap looks generous because the buyer is pricing the income that survives the roll."},
+ {head:"74,000 SF of infill warehouse in the Meadowlands",tag:"74k SF infill, Meadowlands",mkt_name:"Northern New Jersey",sub:"Meadowlands",type:"Infill warehouse",sf:74000,yr:"1968",clr:"20'",occ:1,ten:2,walt:4.1,rent:15.50,mkt:19.00,cap:.053,
+  why:"Old and low, and it barely matters. Land-constrained infill near the port trades on location and a 23% rent gap."},
+ {head:"132,000 SF of multi-tenant industrial near O'Hare",tag:"132k SF multi-tenant, O'Hare",mkt_name:"Chicago, IL",sub:"O'Hare",type:"Multi-tenant industrial",sf:132000,yr:"1979",clr:"20'",occ:.95,ten:8,walt:3.0,rent:8.90,mkt:10.25,cap:.063,
+  why:"O'Hare is among the tightest infill submarkets in the Midwest. Real estate taxes keep a lid on pricing, which is why the cap sits above coastal infill."},
+ {head:"98,000 SF of shallow bay southeast of Nashville",tag:"98k SF shallow bay, Nashville",mkt_name:"Nashville, TN",sub:"Southeast / La Vergne",type:"Shallow bay",sf:98000,yr:"2017",clr:"28'",occ:1,ten:6,walt:3.8,rent:9.25,mkt:10.50,cap:.057,
+  why:"Newer vintage, full, and in a growth market institutional buyers actively want more of. Clean deals like this get the tightest pricing in the Southeast."},
+ {head:"52,000 SF of small bay in Southwest Houston",tag:"52k SF small bay, SW Houston",mkt_name:"Houston, TX",sub:"Southwest / Stafford",type:"Multi-tenant small bay",sf:52000,yr:"1981",clr:"16'",occ:.90,ten:26,walt:1.6,rent:10.80,mkt:12.00,cap:.071,
+  why:"Twenty-six tenants in 52,000 SF is a management business. The deal is too small for institutions, so private buyers set the price and they want a seven-handle."},
+ {head:"620,000 SF of half-leased spec bulk in Alliance",tag:"620k SF spec bulk, Alliance",mkt_name:"Fort Worth, TX",sub:"Alliance",type:"Bulk distribution",sf:620000,yr:"2023",clr:"40'",occ:.62,ten:1,walt:7.0,rent:5.60,mkt:5.75,cap:.039,
+  why:"The in-place cap is misleading on purpose. With 38% of the building dark, buyers price to a full-building yield in the mid-6% range and deduct the cost and time to lease the rest."},
+ {head:"88,000 SF of multi-tenant warehouse in Medley",tag:"88k SF multi-tenant, Medley",mkt_name:"Miami, FL",sub:"Medley",type:"Multi-tenant warehouse",sf:88000,yr:"1996",clr:"22'",occ:1,ten:12,walt:2.4,rent:15.20,mkt:18.50,cap:.052,
+  why:"South Florida infill with a 22% rent gap and short term. Buyers here have paid for the roll for a decade and still do."},
+ {head:"510,000 SF of bulk near Rickenbacker in Columbus",tag:"510k SF bulk, Columbus",mkt_name:"Columbus, OH",sub:"Southeast / Rickenbacker",type:"Bulk distribution",sf:510000,yr:"2018",clr:"36'",occ:1,ten:1,walt:2.0,rent:4.60,mkt:5.40,cap:.058,
+  why:"One tenant with two years left in a market that has plenty of competing big boxes. There is rent upside, but the buyer is also underwriting a possible 510,000 SF vacancy."},
+ {head:"70,000 SF of flex along I-70 in Denver",tag:"70k SF flex, Denver I-70",mkt_name:"Denver, CO",sub:"I-70 East",type:"Flex / small bay",sf:70000,yr:"1986",clr:"18'",occ:.86,ten:19,walt:2.2,rent:10.40,mkt:11.50,cap:.069,
+  why:"Older flex at 86% with a modest rent gap. Nothing is wrong with it and nothing is special, which is roughly what a 6.9% cap says."},
+ {head:"110,000 SF of shallow bay in Southwest Charlotte",tag:"110k SF shallow bay, Charlotte",mkt_name:"Charlotte, NC",sub:"Southwest",type:"Shallow bay",sf:110000,yr:"2001",clr:"24'",occ:.96,ten:7,walt:3.2,rent:8.40,mkt:9.80,cap:.058,
+  why:"Charlotte shallow bay has a long bidder list and little new supply at this size. A 17% rent gap does the rest."},
+ {head:"46,000 SF of small bay in Northwest Dallas",tag:"46k SF small bay, NW Dallas",mkt_name:"Dallas, TX",sub:"Northwest / Valwood",type:"Multi-tenant small bay",sf:46000,yr:"1978",clr:"16'",occ:1,ten:18,walt:1.9,rent:11.90,mkt:13.50,cap:.062,
+  why:"Tiny suites in a core infill pocket. Small-bay rents run high per foot, so the price per foot lands well above what the age and clear height imply."},
+ {head:"180,000 SF of mid-bay in North Las Vegas",tag:"180k SF mid-bay, North Las Vegas",mkt_name:"Las Vegas, NV",sub:"North Las Vegas",type:"Mid-bay",sf:180000,yr:"2020",clr:"32'",occ:1,ten:4,walt:4.4,rent:10.80,mkt:11.40,cap:.055,
+  why:"Modern mid-bay, four tenants and more than four years of term. Not much upside to buy, so it prices close to a core yield."},
+ {head:"730,000 SF of long-leased bulk in Plainfield",tag:"730k SF bulk, Indianapolis",mkt_name:"Indianapolis, IN",sub:"Plainfield",type:"Bulk distribution",sf:730000,yr:"2016",clr:"36'",occ:1,ten:1,walt:8.5,rent:4.10,mkt:4.60,cap:.056,
+  why:"Low rents make for a low price per foot even at a tight yield. Eight and a half years of term in the Midwest's deepest bulk market is about as financeable as industrial gets."},
+ {head:"64,000 SF of crane-served manufacturing in Pasadena",tag:"64k SF crane-served, SE Houston",mkt_name:"Houston, TX",sub:"Southeast / Pasadena",type:"Crane-served manufacturing",sf:64000,yr:"1975, renovated 2012",clr:"28' hook",occ:1,ten:1,walt:9.0,rent:9.00,mkt:9.50,cap:.074,
+  why:"Nine years of term would normally mean a tight cap. Specialized buildings have a narrow re-tenanting market, so buyers ask to be paid for the day the tenant leaves."},
+ {head:"58,000 SF of small bay east of Tampa",tag:"58k SF small bay, East Tampa",mkt_name:"Tampa, FL",sub:"East / I-4",type:"Multi-tenant small bay",sf:58000,yr:"2008",clr:"20'",occ:.93,ten:16,walt:2.0,rent:12.60,mkt:14.25,cap:.061,
+  why:"Newer small bay in a Florida growth market with 13% of rent still to capture. The suite count keeps institutions away, and private capital fills the gap at a low six."}
+];
+
+var ORDER=[9,3,7,12,1,4,8,0,17,2,13,5,15,10,18,6,16,14,20,19,11];
+var TYPES={"Multi-tenant small bay":[100,0],"Shallow bay":[160,1],"Office-flex":[90,0],"Bulk distribution":[520,1],"Single-tenant warehouse":[260,1],"Infill warehouse":[180,1],"Multi-tenant industrial":[180,1],"Flex / small bay":[100,0],"Mid-bay":[240,1],"Crane-served manufacturing":[160,0],"Multi-tenant warehouse":[160,1]};
+var ZX=2;
+function gcd(a,b){return b?gcd(b,a%b):a}
+function sketch(d){
+  var t=TYPES[d.type]||[160,1],D=t[0],dock=t[1],H=(parseInt(d.clr,10)+6)*ZX;
+  var L=d.sf/D,n=Math.min(4,Math.max(1,Math.ceil(L/(D*4.2)))),Lb=L/n,court=n>1?(dock?170:120):0,apron=dock?150:70;
+  var NB=d.ten>1?Math.max(d.ten,Math.round(d.ten/d.occ)):(d.occ<1?8:1);
+  var NV=d.occ<1?Math.max(1,Math.round(NB*(1-d.occ))):0,vac={},i,k;
+  if(d.ten>1){var st=[7,11,13,5,3,1].filter(function(s){return gcd(s,NB)===1})[0];for(i=0;i<NB;i++)if((i*st+3)%NB<NV)vac[i]=1}
+  else for(i=NB-NV;i<NB;i++)vac[i]=1;
+  var Y=n*D+(n-1)*court,items=[],grp=0;
+  function add(c,pts,line){items.push({c:c,p:pts,g:grp,l:line})}
+  var R=Y+apron;
+  add("sk-pad",[[-50,-50,0],[Lb+50,-50,0],[Lb+50,R,0],[-50,R,0]]);
+  add("sk-road",[[-50,R,0],[Lb+50,R,0],[Lb+50,R+46,0],[-50,R+46,0]]);
+  add("sk-lane",[[-50,R+23,0],[Lb+50,R+23,0]],1);
+  var ts=Math.max(48,Lb/13);for(var tx=-28;tx<=Lb+30;tx+=ts)items.push({c:"sk-tree",p:[[tx,-27,14]],g:0,r:15});
+  var spacing=Math.max(dock?45:1,L/64),bi=0;
+  for(k=0;k<n;k++){
+    grp=k+1;
+    var y0=k*(D+court),y1=y0+D,nb=Math.max(1,Math.floor(NB/n)+(k<NB%n?1:0)),w=Lb/nb,doors=[];
+    add("sk-f2",[[Lb,y0,0],[Lb,y1,0],[Lb,y1,H],[Lb,y0,H]]);
+    add("sk-f1",[[0,y1,0],[Lb,y1,0],[Lb,y1,H],[0,y1,H]]);
+    for(i=0;i<nb;i++,bi++){
+      var xa=i*w,xb=xa+w,v=vac[bi];
+      add(v?"sk-vac":"sk-roof",[[xa,y0,H],[xb,y0,H],[xb,y1,H],[xa,y1,H]]);
+      if(!v){var nu=Math.max(1,Math.min(6,Math.round(w/150))),us=Math.min(11,w*.22),ym=y0+D*.38;
+        for(var u=0;u<nu;u++){var xm=xa+w*(u+.5)/nu;add("sk-unit",[[xm-us,ym-us,H],[xm+us,ym-us,H],[xm+us,ym+us,H],[xm-us,ym+us,H]])}}
+      var nd=dock?Math.max(1,Math.floor(w/spacing)):1,dw=dock?Math.min(11,w*.5):Math.min(16,w*.5),z0=dock?5*ZX:0,z1=(dock?15:14)*ZX;
+      for(var j=0;j<nd;j++){var xc=xa+w*(j+.5)/nd;
+        add(v?"sk-vdoor":"sk-door",[[xc-dw/2,y1,z0],[xc+dw/2,y1,z0],[xc+dw/2,y1,z1],[xc-dw/2,y1,z1]]);
+        if(!v)doors.push(xc)}
+    }
+    if(dock){var c=0;doors.forEach(function(xc,q){if((q*5+k*3+d.ten)%3===0&&c<18){c++;
+      var a=xc-6,b=xc+6,ya=y1+5,yb=y1+58,h=14*ZX;
+      add("sk-tr2",[[b,ya,0],[b,yb,0],[b,yb,h],[b,ya,h]]);add("sk-tr2",[[a,yb,0],[b,yb,0],[b,yb,h],[a,yb,h]]);add("sk-tr",[[a,ya,h],[b,ya,h],[b,yb,h],[a,yb,h]])}})}
+    else{var ns=Math.min(46,Math.floor(Lb/11));for(i=0;i<=ns;i++){var px=i*Lb/ns;add("sk-park",[[px,y1+26,0],[px,y1+46,0]],1)}}
+  }
+  function pr(p){return [(p[0]-p[1])*.866,(p[0]+p[1])*.5-p[2]]}
+  var a0=1e9,a1=-1e9,b0=1e9,b1=-1e9;
+  items.forEach(function(it){it.q=it.p.map(pr);it.q.forEach(function(q){a0=Math.min(a0,q[0]);a1=Math.max(a1,q[0]);b0=Math.min(b0,q[1]);b1=Math.max(b1,q[1])})});
+  var W=720,m=22,s=(W-2*m)/(a1-a0),Hh=Math.max(250,(b1-b0)*s+2*m);
+  if(Hh>470){Hh=470;s=(Hh-2*m)/(b1-b0)}
+  var ox=(W-(a1-a0)*s)/2,oy=(Hh-(b1-b0)*s)/2;
+  $("sketch").setAttribute("viewBox","0 0 "+W+" "+Math.round(Hh));
+  var out='<defs><pattern id="vh" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="5" height="5" style="fill:var(--roof);stroke:none"/><rect width="2" height="5" style="fill:var(--rust);stroke:none"/></pattern></defs>',cur=-1;
+  items.forEach(function(it){
+    if(it.g!==cur){if(cur>-1)out+="</g>";cur=it.g;out+='<g class="rise" style="animation-delay:'+(it.g*130)+'ms">'}
+    var pts=it.q.map(function(q){return ((q[0]-a0)*s+ox).toFixed(1)+","+((q[1]-b0)*s+oy).toFixed(1)}).join(" ");
+    if(it.r){var cc=pts.split(",");out+='<circle class="'+it.c+'" cx="'+cc[0]+'" cy="'+cc[1]+'" r="'+Math.max(3,it.r*s).toFixed(1)+'"/>';return}
+    out+=it.l?'<polyline class="'+it.c+'" points="'+pts+'"/>':'<polygon class="'+it.c+'" points="'+pts+'"/>';
+  });
+  $("sketch").innerHTML=out+"</g>";
+  var r=function(x){return Math.round(x/10)*10};
+  $("dims").textContent=(n>1?n+" buildings, each about ":"About ")+r(Lb).toLocaleString("en-US")+"' by "+D+"', "+d.clr+" clear. Composite massing, drawn to scale.";
+}
+function ruler(d){
+  var a=price(d),lo=0,hi=400,pos=function(v){return Math.max(0,Math.min(100,v/4))};
+  S.bids.forEach(function(g){if(g<a)lo=Math.max(lo,g);else if(g>a)hi=Math.min(hi,g)});
+  var h='<div class="play" style="left:'+pos(lo)+'%;width:'+(pos(hi)-pos(lo))+'%"></div><div class="axis"></div>';
+  for(var v=0;v<=400;v+=25)h+='<div class="tick'+(v%100?" minor":"")+'" style="left:'+pos(v)+'%"></div>';
+  if(S.done)h+='<div class="flag" style="left:'+pos(a)+'%"></div>';
+  S.bids.forEach(function(g){h+='<div class="mk '+band(d,g)+'" style="left:'+pos(g)+'%" title="$'+g+'"></div>'});
+  $("track").innerHTML=h;
+  $("inplay").textContent=S.done?"Traded at $"+a:(S.bids.length?"Still in play: $"+lo+" to "+(hi>=400?"$400+":"$"+hi):"");
+}
+var drawn=-1;
+
+function $(id){return document.getElementById(id)}
+function price(d){return Math.round(d.rent*d.occ/d.cap)}
+function capOf(d,p){return d.rent*d.occ/p}
+function pct(x,dp){return (x*100).toFixed(dp==null?1:dp)+"%"}
+function money(n){return n>=1e9?"$"+(n/1e9).toFixed(2)+"B":"$"+(n/1e6).toFixed(1)+"M"}
+function dayIndex(){var n=new Date();var a=new Date(n.getFullYear(),n.getMonth(),n.getDate());return Math.max(0,Math.round((a-LAUNCH)/864e5))}
+function pad(n){return ("00"+n).slice(-3)}
+function band(d,g){var a=price(d),e=Math.abs(g-a)/a;return e<=.03?"win":e<=.08?"hot":e<=.15?"warm":"cold"}
+var BAND={cold:"Cold",warm:"Warm",hot:"Hot",win:"Awarded"};
+var EMOJI={cold:"🟦",warm:"🟨",hot:"🟧",win:"🟩"};
+
+var KEY="price-the-deal-v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+
+var S; // {mode,day,di,bids,done,won,streak,fresh}
+function startDaily(){
+  var day=dayIndex(),st=load();
+  S={mode:"daily",day:day,di:ORDER[day%DEALS.length],bids:[],done:false,won:false,streak:st.streak||0,lastWin:st.lastWin};
+  if(st.day===day&&Array.isArray(st.bids)){S.bids=st.bids.slice(0,MAX);S.done=!!st.done;S.won=!!st.won}
+  else if(st.lastWin!==day-1&&st.lastWin!==day){S.streak=0}
+}
+function startPractice(){
+  var di;do{di=Math.floor(Math.random()*DEALS.length)}while(di===S.di);
+  S={mode:"practice",day:S.day,di:di,bids:[],done:false,won:false,streak:S.streak,lastWin:S.lastWin};
+}
+function persist(){if(S.mode==="daily")save({day:S.day,bids:S.bids,done:S.done,won:S.won,streak:S.streak,lastWin:S.lastWin})}
+
+function shareText(d){
+  var rows=S.bids.map(function(g){var b=band(d,g);return EMOJI[b]+(b==="win"?"":(g<price(d)?"⬆️":"⬇️"))}).join(" ");
+  return "Price the Deal No. "+pad(S.day+1)+" — "+(S.won?S.bids.length:"X")+"/"+MAX+"\n"+rows+"\n"+d.tag+"\n"+SITE;
+}
+
+function render(fresh){
+  var d=DEALS[S.di],a=price(d);
+  var date=new Date(LAUNCH.getFullYear(),LAUNCH.getMonth(),LAUNCH.getDate()+S.day);
+  $("eyebrow").textContent=S.mode==="daily"
+    ?"Price the Deal · No. "+pad(S.day+1)+" · "+date.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"})
+    :"Price the Deal · Practice";
+  $("head").textContent=d.head;
+  if(drawn!==S.di){drawn=S.di;sketch(d)}
+  ruler(d);
+  $("stamp").hidden=!S.done;
+  if(S.done)$("stamp").innerHTML=(S.won?"Awarded":"Outbid")+"<small>$"+a+" / SF</small>";
+  var rows=[["Market",d.mkt_name],["Submarket",d.sub],["Product",d.type],["Size",d.sf.toLocaleString("en-US")+" SF"],
+    ["Built",d.yr],["Clear height",d.clr],["Occupancy",pct(d.occ,0)],["Tenants",String(d.ten)],
+    ["WALT",d.walt.toFixed(1)+" yrs"],["In-place rent","$"+d.rent.toFixed(2)+" NNN"],["Market rent","$"+d.mkt.toFixed(2)+" NNN"],
+    ["In-place NOI","$"+(d.rent*d.occ).toFixed(2)+" / SF"]];
+  $("sheet").innerHTML=rows.map(function(r){return "<div><dt>"+r[0]+"</dt><dd>"+r[1]+"</dd></div>"}).join("");
+
+  var html="";
+  for(var i=0;i<MAX;i++){
+    if(i<S.bids.length){
+      var g=S.bids[i],b=band(d,g);
+      var v=b==="win"?"Awarded":BAND[b]+" · "+(g<a?"go higher ↑":"go lower ↓");
+      html+="<li"+(fresh&&i===S.bids.length-1?' class="new"':"")+"><span class=\"sq "+b+"\"></span><span class=\"bid\"><span class=\"amt\">$"+g+"</span><span class=\"cap\">"+pct(capOf(d,g))+" in-place cap</span></span><span class=\"verdict v-"+b+"\">"+v+"</span></li>";
+    }else{
+      html+="<li><span class=\"sq\"></span><span class=\"empty\">Bid "+(i+1)+"</span><span></span></li>";
+    }
+  }
+  $("ladder").innerHTML=html;
+
+  $("bidform").hidden=S.done;
+  $("result").hidden=!S.done;
+  if(S.done){
+    $("resLabel").textContent=S.won?"Awarded in "+S.bids.length+" of "+MAX+(S.mode==="daily"&&S.streak>1?" · streak "+S.streak:""):"Outbid";
+    $("resHead").textContent=(S.won?"The deal is yours at ":"It traded at ")+"$"+a+" per square foot.";
+    $("resMath").textContent=money(a*d.sf)+" total, a "+pct(d.cap)+" cap on in-place income and "+pct(d.mkt*d.occ/a)+" with rents marked to market.";
+    $("resWhy").textContent=d.why;
+    var daily=S.mode==="daily";
+    $("share").hidden=!daily; $("copy").hidden=!daily;
+    if(daily)$("share").textContent=shareText(d);
+    $("practice").textContent=daily?"Practice deal":"Another practice deal";
+    $("today").hidden=daily;
+    $("note").textContent="";
+  }else{
+    updateReadout();
+  }
+}
+
+function parseBid(){var v=$("bid").value.replace(/[^0-9]/g,"");return v?parseInt(v,10):NaN}
+function updateReadout(msg){
+  var r=$("readout"),d=DEALS[S.di],g=parseBid();
+  r.className="readout";
+  if(msg){r.className="readout err";r.textContent=msg;return}
+  if(!g||g<10){r.textContent="Bid "+(S.bids.length+1)+" of "+MAX+".";return}
+  r.textContent="$"+g+"/SF is "+money(g*d.sf)+" total, a "+pct(capOf(d,g))+" in-place cap.";
+}
+
+$("bid").addEventListener("input",function(){updateReadout()});
+$("bidform").addEventListener("submit",function(e){
+  e.preventDefault();
+  if(S.done)return;
+  var d=DEALS[S.di],g=parseBid();
+  if(!g||g<10||g>2000){updateReadout("Enter a whole-dollar price between $10 and $2,000 per SF.");$("bid").focus();return}
+  if(S.bids.indexOf(g)>-1){updateReadout("You already bid $"+g+". Try a different number.");return}
+  S.bids.push(g);
+  var b=band(d,g);
+  if(b==="win"){S.done=true;S.won=true;if(S.mode==="daily"){S.streak=(S.lastWin===S.day-1?S.streak:0)+1;S.lastWin=S.day}}
+  else if(S.bids.length>=MAX){S.done=true;if(S.mode==="daily")S.streak=0}
+  persist();
+  $("bid").value="";
+  render(true);
+  if(S.done){$("result").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"})}
+});
+
+$("copy").addEventListener("click",function(){
+  var t=$("share").textContent,note=$("note");
+  function fallback(){try{var r=document.createRange();r.selectNodeContents($("share"));var s=getSelection();s.removeAllRanges();s.addRange(r)}catch(e){}note.textContent="Selected. Copy it from here."}
+  try{navigator.clipboard.writeText(t).then(function(){note.textContent="Copied. Paste it into a post."},fallback)}catch(e){fallback()}
+});
+$("practice").addEventListener("click",function(){startPractice();render();scrollTo(0,0)});
+$("today").addEventListener("click",function(){startDaily();render();scrollTo(0,0)});
+
+function boot(data){
+  startDaily();
+  if(data&&data.S&&data.S.day===S.day){S=data.S}
+  render();
+}
+var hot=window.claude&&window.claude.hot;
+if(hot&&hot.snapshot){try{hot.snapshot(function(){return {S:S}})}catch(e){}}
+if(hot&&hot.ready){hot.ready(boot)}else{boot(hot&&hot.data||{})}
+})();
+</script>
+
+</body>
+</html>
